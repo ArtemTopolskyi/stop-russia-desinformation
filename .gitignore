@@ -1,0 +1,13 @@
+.DS_Store
+
+.idea/
+.vscode/
+
+# package directories
+node_modules
+
+# build
+.webpack
+
+# Serverless directories
+.serverless

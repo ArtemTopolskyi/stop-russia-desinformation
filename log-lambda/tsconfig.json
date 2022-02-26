@@ -1,0 +1,20 @@
+{
+  "extends": "@mate-academy/ts-config",
+  "compilerOptions": {
+    "rootDirs": [
+      "../../"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["../../*"],
+      "@src/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "typings/**/*"
+  ],
+  "files": [
+    "node_modules/@mate-academy/core/typings/custom.d.ts"
+  ]
+}
