@@ -77,11 +77,13 @@ async function fetchWithTimeout(resource) {
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
 
-            if (!current[res.statusCode]) {
-                current[res.statusCode] = 0;
+            const field = `status_${res.statusCode}`;
+
+            if (!current[field]) {
+                current[field] = 0;
             }
 
-            current[res.statusCode] += 1;
+            current[field] += 1;
 
             resolve(result);
         })
