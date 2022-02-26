@@ -1,0 +1,29 @@
+service: tech-checks
+
+package:
+  individually: true
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  versionFunctions: false
+  logRetentionInDays: 30
+  deploymentBucket:
+    name: mate-serverless-deployment-bucket
+    serverSideEncryption: AES256
+
+
+functions:
+  log_results:
+    handler: src/lambdas/logResult/handler.main
+    description: "Log ddos results"
+    timeout: 300
+    events:
+      - http:
+          path: /
+          method: post

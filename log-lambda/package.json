@@ -1,0 +1,12 @@
+{
+  "name": "log-lambda",
+  "version": "1.0.0",
+  "author": "Mate Academy",
+  "scripts": {
+    "dev": "sls offline start"
+  },
+  "devDependencies": {
+    "serverless-deployment-bucket": "^1.3.0",
+    "serverless-offline": "^6.3.2"
+  }
+}
