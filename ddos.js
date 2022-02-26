@@ -20,7 +20,7 @@ async function fetchWithTimeout(resource) {
         const start = process.hrtime()
 
         const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), 10000);
+        const id = setTimeout(() => controller.abort(), 5000);
 
         const options = {
             hostname: resource.hostname,
