@@ -29,6 +29,10 @@ const paths = [
     "/ru/dossier/"
 ];
 
+const results = {
+    error: 0
+};
+
 const base = 'https://eadaily.com/tools/get_news_feed.php'
 const url = 'https://eadaily.com/tools/get_news_feed.php?path=/ru/news/ukraine/2022/02/25/&time=2022-02-25%2015:26:00'
 const daysInFiveYears = 365 * 5;
@@ -102,6 +106,12 @@ async function fetchWithTimeout(resource) {
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
 
+            if (!results[res.statusCode]) {
+                results[res.statusCode] = 0;
+            }
+
+            results[res.statusCode] += 1;
+
             resolve(result);
         })
 
@@ -109,6 +119,8 @@ async function fetchWithTimeout(resource) {
             result.error = error.message;
             clearTimeout(id);
             result.durationInMilliseconds = getDurationInMilliseconds (start)
+
+            results.error += 1;
 
             resolve(result);
         })
@@ -125,6 +137,8 @@ async function flood(target) {
         queue.push(
             fetchWithTimeout(target)
                 .then((response) => {
+                    console.clear();
+                    console.log(results)
                     console.log(response)
                 })
 
