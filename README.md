@@ -7,7 +7,7 @@
 We automatically update list of sites, need just restart script to load updated targets.
 
 ## Requirements:
-Use vpn during attacks. You can use a free urban vpn extension to turn it on. It’s preferable to use the Russian region.
+Use vpn during attacks. You can use a free UrbanVPN extension to turn it on. It’s preferable to use the Russian region.
 
 ### Install NodeJS:
 Download and install at least 16 version here: https://nodejs.org/en/ 
