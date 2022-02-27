@@ -38,6 +38,13 @@ const url = 'https://eadaily.com/tools/get_news_feed.php?path=/ru/news/ukraine/2
 const daysInFiveYears = 365 * 5;
 
 function rand(max) {
+    if (Array.isArray(max)) {
+        const list = max;
+        const index = Math.floor(Math.random() * list.length - 1);
+
+        return list[index];
+    }
+
     return Math.floor(Math.random() * max);
 }
 

