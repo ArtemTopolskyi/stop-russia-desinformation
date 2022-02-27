@@ -59,7 +59,8 @@ async function fetchWithTimeout(resource) {
                 path: `${resource.path}?putin=huilo&biba=${Math.random()}`,
                 port: 443,
                 method: 'GET',
-                signal: controller.signal
+                signal: controller.signal,
+                rejectUnauthorized: false,
             }
 
             const result = {path: `${options.hostname}${options.path}`};
