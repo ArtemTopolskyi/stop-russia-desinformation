@@ -23,9 +23,12 @@ On windows in the folder: right click => open terminal here
 
 - If script stucks, re-launch it:
   - Stop it using command `ctrl+c` in terminal
-  - Write `node ddos` again
+  - To target **moex.com** run `npm run ddos:moex`.
+  - To target **eadaily.com** run `npm run ddos:eadaily`.
+
+- If no target is set, it defaults to **moex**.
 
 ## Notes:
 To check if website is down use the following tools:
 https://port.ping.pe/eadaily.com:443
-https://www.uptrends.com/tools/uptime 
+https://www.uptrends.com/tools/uptime
