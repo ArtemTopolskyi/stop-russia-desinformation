@@ -18,15 +18,14 @@ or via homebrew if you’re pro https://formulae.brew.sh/formula/node
 On MacOS simply drag folder to the terminal window
 On windows in the folder: right click => open terminal here
 
-- Launch script node ddos in the opened terminal, you should see smth like this:
+- Launch script `npm run ddos` in the opened terminal, you should see smth like this:
 - Keep terminal opened
 
 - If script stucks, re-launch it:
   - Stop it using command `ctrl+c` in terminal
   - To target **moex.com** run `npm run ddos:moex`.
   - To target **eadaily.com** run `npm run ddos:eadaily`.
-
-- If no target is set, it defaults to **moex**.
+  - If no target is set, it defaults to **moex**.
 
 ## Notes:
 To check if website is down use the following tools:
