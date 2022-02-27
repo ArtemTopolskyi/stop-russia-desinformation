@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "ddos:moex": "TARGET=moex node ddos.js",
+    "ddos:eadaily": "TARGET=eadaily node ddos.js"
+  }
+}
