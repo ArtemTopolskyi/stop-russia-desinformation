@@ -30,5 +30,5 @@ On windows in the folder: right click => open terminal here
 
 ## Notes:
 To check if website is down use the following tools:
-https://port.ping.pe/eadaily.com:443
-https://www.uptrends.com/tools/uptime
+- https://port.ping.pe/eadaily.com:443
+- https://www.uptrends.com/tools/uptime
