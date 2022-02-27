@@ -1,5 +1,6 @@
 [
-  { "hostname": "ofs.moex.com", "path":  ""},
+  { "hostname": "passport.moex.com", "path":  "/login"},
+  { "hostname": "passport.moex.com", "path":  "/login", "method": "POST"},
   { "hostname": "moex.com", "path":  "/ru/orders"},
   { "hostname": "moex.com", "path":  "/ru/indices"},
   { "hostname": "moex.com", "path":  "/ru/news"},
