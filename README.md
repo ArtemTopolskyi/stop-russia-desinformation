@@ -26,7 +26,7 @@ On windows in the folder: right click => open terminal here
   - To target **moex.com** run `npm run ddos:moex`.
   - To target **eadaily.com** run `npm run ddos:eadaily`.
 
-- If no target is set, it defaults to **eadaily**.
+- If no target is set, it defaults to **moex**.
 
 ## Notes:
 To check if website is down use the following tools:

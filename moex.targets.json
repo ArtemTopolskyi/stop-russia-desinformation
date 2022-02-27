@@ -1,4 +1,5 @@
 [
+  { "hostname": "ofs.moex.com", "path":  "/"},
   { "hostname": "moex.com", "path":  "/ru/orders"},
   { "hostname": "moex.com", "path":  "/ru/indices"},
   { "hostname": "moex.com", "path":  "/ru/news/"},

@@ -1,6 +1,6 @@
 const https = require('https')
 
-const defaultTarget = 'eadaily';
+const defaultTarget = 'moex';
 const targetedService = process.env.TARGET || defaultTarget;
 
 const total = {};
