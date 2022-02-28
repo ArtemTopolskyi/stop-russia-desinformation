@@ -1,7 +1,21 @@
 {
+  "name": "stop-russia-desinformation",
+  "version": "1.0.0",
+  "main": "ddos.js",
+  "bin": "ddos.js",
   "scripts": {
     "ddos": "node ddos.js",
     "ddos:moex": "TARGET=moex node ddos.js",
     "ddos:eadaily": "TARGET=eadaily node ddos.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtemTopolskyi/stop-russia-desinformation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArtemTopolskyi/stop-russia-desinformation/issues"
+  },
+  "homepage": "https://github.com/ArtemTopolskyi/stop-russia-desinformation#readme"
 }
