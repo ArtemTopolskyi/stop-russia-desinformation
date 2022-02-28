@@ -13,19 +13,15 @@ Use vpn during attacks. You can use a free [UrbanVPN](https://www.urban-vpn.com)
 Download and install at least 16 version here: https://nodejs.org/en/ 
 or via homebrew if you’re pro https://formulae.brew.sh/formula/node
 
-### Download code from repository: https://github.com/ArtemTopolskyi/stop-russia-desinformation (code => download zip) OR clone via http or ssh if you have a github account 
-- Open terminal, navigate to downloaded folder:
-On MacOS simply drag folder to the terminal window
-On windows in the folder: right click => open terminal here
-
-- Launch script `npm run ddos` in the opened terminal, you should see smth like this:
+### Run script:
+- Open terminal
+- Launch script `npx stop-russia-desinformation` in the opened terminal
 - Keep terminal opened
 
 - If script stucks, re-launch it:
   - Stop it using command `ctrl+c` in terminal
-  - To target **moex.com** run `npm run ddos:moex`.
-  - To target **eadaily.com** run `npm run ddos:eadaily`.
-  - If no target is set, it defaults to **moex**.
+  - Launch `npx stop-russia-desinformation` again
+
 
 ## Notes:
 To check if website is down use the following tools:
