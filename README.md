@@ -4,6 +4,7 @@
   - https://eadaily.com/
   - https://www.moex.com/
   - https://fsvts.gov.ru/
+  - http://mid.ru
 
 We automatically update list of sites, need just restart script to load updated targets.
 
