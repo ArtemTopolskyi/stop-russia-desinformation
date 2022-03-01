@@ -1,6 +1,6 @@
 {
   "name": "stop-russia-desinformation",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "ddos.js",
   "bin": "ddos.js",
   "scripts": {
