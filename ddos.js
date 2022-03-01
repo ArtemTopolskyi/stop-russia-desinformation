@@ -9,7 +9,7 @@ const emailDomains = [
     'yandex.ru',
 ];
 const moskalWords = [
-    'танк',
+    'танки',
     'оружие',
     'оборона',
     'структура',
