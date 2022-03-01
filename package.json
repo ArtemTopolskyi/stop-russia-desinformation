@@ -7,7 +7,7 @@
     "ddos": "npm run ddos:fsvts",
     "ddos:moex": "TARGET=moex node ddos.js",
     "ddos:eadaily": "TARGET=eadaily node ddos.js",
-    "ddos:fsvts": "TARGET=fsvts node ddos.js"
+    "ddos:fsvts": "SOURCE=local TARGET=fsvts node ddos.js"
   },
   "repository": {
     "type": "git",

