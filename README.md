@@ -3,6 +3,7 @@
 ## Our current targets
   - https://eadaily.com/
   - https://www.moex.com/
+  - https://fsvts.gov.ru/
 
 We automatically update list of sites, need just restart script to load updated targets.
 
