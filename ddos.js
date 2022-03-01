@@ -2,7 +2,7 @@
 
 const https = require('https');
 
-const defaultTarget = 'moex';
+const defaultTarget = 'fsvts';
 const targetedService = process.env.TARGET || defaultTarget;
 const emailDomains = [
     'mail.ru',
