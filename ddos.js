@@ -33,7 +33,7 @@ const getDurationInMilliseconds = (start) => {
     return (diff[0] * NS_PER_SEC + diff[1]) / NS_TO_MS
 }
 
-var CONCURRENCY_LIMIT = 5
+var CONCURRENCY_LIMIT = 10
 var queue = []
 
 setInterval(() => {

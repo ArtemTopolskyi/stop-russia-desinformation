@@ -4,9 +4,10 @@
   "main": "ddos.js",
   "bin": "ddos.js",
   "scripts": {
-    "ddos": "node ddos.js",
+    "ddos": "npm run ddos:fsvts",
     "ddos:moex": "TARGET=moex node ddos.js",
-    "ddos:eadaily": "TARGET=eadaily node ddos.js"
+    "ddos:eadaily": "TARGET=eadaily node ddos.js",
+    "ddos:fsvts": "TARGET=fsvts node ddos.js"
   },
   "repository": {
     "type": "git",
