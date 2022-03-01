@@ -2,7 +2,7 @@
 
 const https = require('https');
 
-const defaultTarget = 'fsvts';
+const defaultTarget = 'default';
 const targetedService = process.env.TARGET || defaultTarget;
 const emailDomains = [
     'mail.ru',

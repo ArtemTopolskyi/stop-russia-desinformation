@@ -1,10 +1,10 @@
 {
   "name": "stop-russia-desinformation",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "main": "ddos.js",
   "bin": "ddos.js",
   "scripts": {
-    "ddos": "npm run ddos:fsvts",
+    "ddos": "SOURCE=local TARGET=default node ddos.js",
     "ddos:moex": "TARGET=moex node ddos.js",
     "ddos:eadaily": "TARGET=eadaily node ddos.js",
     "ddos:fsvts": "TARGET=fsvts node ddos.js"
